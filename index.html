@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sudoku</title>
+    <style>
+        /* Basic styling for the layout and table */
+        body { text-align: center; font-family: Arial, sans-serif; }
+        table { border-collapse: collapse; margin: auto; }
+        td { width: 40px; height: 40px; text-align: center; border: 1px solid black; font-size: 18px; }
+
+        /* Adds bold borders between 3x3 boxes */
+        td:nth-child(3n) { border-right: 2px solid black; }
+        tr:nth-child(3n) td { border-bottom: 2px solid black; }
+
+        /* Styling for input and layout */
+        input { width: 50px; text-align: center; }
+        .container { display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
+        form { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Sudoku</h1>
+
+    <!-- Display error message if one exists -->
+    {% if error_message %}
+        <p style="color:red;">{{ error_message }}</p>
+    {% endif %}
+
+    <!-- Rendering the Sudoku Board -->
+    <table>
+        {% for row in board %}
+            <tr>
+                {% for num in row %}
+                    <!-- Display a dot for empty cells, otherwise show the number -->
+                    <td>{{ "." if num == 0 else num }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Input section for user interaction -->
+    <div class="container">
+
+        <!-- Form to submit a move -->
+        <form action="/play" method="post">
+            <input type="number" name="row" min="1" max="9" required>
+            <input type="number" name="col" min="1" max="9" required>
+            <input type="number" name="num" min="1" max="9" required>
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- Button to solve the puzzle -->
+        <form action="/solve"><button type="submit">Solve</button></form>
+
+        <!-- Button to reset the board -->
+        <form action="/reset"><button type="submit">New Game</button></form>
+    </div>
+</body>
+</html>
